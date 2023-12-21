@@ -1,5 +1,5 @@
 'use client'
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 // import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {auth} from '../firebase/config'
@@ -19,27 +19,55 @@ const Signup = () => {
 
     }
    
-    
+    const handleSignup = async (e) => {
+      e.preventDefault();
   
-    const handleSignup = (e) => {
-        e.preventDefault();
-        createUserWithEmailAndPassword(auth,email,password)
-        .then((userCredential) =>{
-           
-            const user = userCredential.user;
-            console.log(user);
-            setEmail('');
-            setPassword('');
-            sessionStorage.setItem('user',true)
-
-            router.push('../sign-in')
-
-            // navigate('/login');
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+  
+        console.log('User registered:', user);
         
-        }).catch((error) => {
-                console.log(error.message);});
+        // Store the user flag in sessionStorage
+        sessionStorage.setItem('user', 'true');
   
-   };
+        // Clear email and password fields
+        setEmail('');
+        setPassword('');
+  
+        // Redirect to the sign-in page
+        router.push('../sign-in');
+      } catch (error) {
+        // Handle registration error
+        console.error('Registration error:', error.message);
+      }
+    };
+  
+    // useEffect to ensure sessionStorage is available on the client side
+    useEffect(() => {
+      // Your code using sessionStorage here (if needed)
+    }, []);
+  
+  
+  //   const handleSignup = (e) => {
+  //       e.preventDefault();
+  //       createUserWithEmailAndPassword(auth,email,password)
+  //       .then((userCredential) =>{
+           
+  //           const user = userCredential.user;
+  //           console.log(user);
+  //           setEmail('');
+  //           setPassword('');
+  //           sessionStorage.setItem('user',true)
+
+  //           router.push('../sign-in')
+
+  //           // navigate('/login');
+        
+  //       }).catch((error) => {
+  //               console.log(error.message);});
+  
+  //  };
   
 
   return (

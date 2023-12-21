@@ -29,29 +29,44 @@ export default function Home (){
 
 
 
-  const [user] = useAuthState(auth);
   
-  const router = useRouter();
-  const userSession = sessionStorage.getItem('user');
+  
+  // const router = useRouter();
+  // const userSession = sessionStorage.getItem('user');
 
-  if(!user && !userSession) {
-    router.push('/sign-up');
-  }
-
-
-
+  // if(!user && !userSession) {
+  //   router.push('/sign-up');
+  // }
+  // const router = useRouter();
   useEffect(() => {
+    // Check for user session in sessionStorage
+    const userSession = sessionStorage.getItem('user');
+    const [user] = useAuthState(auth);
+    // Set the favorites list
     setFavoritesList(getFavorites());
-    console.log('Favorites List:', favoritesList);
-    
-    if (query.trim() !== '') {
+
+    // Perform actions based on user session and query
+    if (!user && !userSession) {
+      // Redirect to the sign-up page if user session is not present
+      router.push('/sign-up');
+    } else if (query.trim() !== '') {
+      // Perform search if the query is not empty
       handleSearch();
     }
-  }, [query]);
-  useEffect(() => {
+  }, [query, router]); 
+
+  // useEffect(() => {
+  //   setFavoritesList(getFavorites());
+  //   // console.log('Favorites List:', favoritesList);
     
-    setFavoritesList(getFavorites());
-  }, []);
+  //   if (query.trim() !== '') {
+  //     handleSearch();
+  //   }
+  // }, [query]);
+  // useEffect(() => {
+    
+  //   setFavoritesList(getFavorites());
+  // }, []);
   const handleSearch = async () => {
     setLoading(true);
     try {
