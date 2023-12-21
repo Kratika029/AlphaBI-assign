@@ -30,7 +30,7 @@ const Signup = () => {
             console.log(user);
             setEmail('');
             setPassword('');
-            // sessionStorage.setItem('user',true)
+            sessionStorage.setItem('user',true)
 
             router.push('../sign-in')
 
