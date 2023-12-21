@@ -31,7 +31,7 @@ export default function Home (){
 
   
   
-  // const router = useRouter();
+  
   // const userSession = sessionStorage.getItem('user');
 
   // if(!user && !userSession) {
@@ -42,6 +42,7 @@ export default function Home (){
     // Check for user session in sessionStorage
     const userSession = sessionStorage.getItem('user');
     const [user] = useAuthState(auth);
+    const router = useRouter();
     // Set the favorites list
     setFavoritesList(getFavorites());
 
